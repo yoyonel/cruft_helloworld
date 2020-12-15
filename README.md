@@ -42,6 +42,9 @@ poetry run pytest
 This repository follows the [Conventional Commits](https://www.conventionalcommits.org/)
 style.
 
+### Pycharm debugging
+https://pytest-cov.readthedocs.io/en/latest/debuggers.html
+
 ### Cookiecutter template
 
 This project was created using [cruft](https://github.com/cruft/cruft) and the
