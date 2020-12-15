@@ -1,0 +1,19 @@
+{
+    "template": "https://github.com/escaped/cookiecutter-pypackage.git",
+    "commit": "8968d7dec2ede91acacc207cc87cf55c39915f54",
+    "context": {
+        "cookiecutter": {
+            "author": "lionel atty",
+            "author_email": "yoyonel@hotmail.com",
+            "github_username": "yoyonel",
+            "project_name": "cruft_helloworld",
+            "project_slug": "cruft_helloworld",
+            "short_description": "Cruft Python Hello-World",
+            "version": "0.1.0",
+            "line_length": "88",
+            "uses_django": "n",
+            "_template": "https://github.com/escaped/cookiecutter-pypackage.git"
+        }
+    },
+    "directory": null
+}
