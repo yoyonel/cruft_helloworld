@@ -8,3 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 [Unreleased]: https://github.com/yoyonel/cruft_helloworld/tree/master
+
+## [v0.1.0] - 2020-12-15
+### Added
+- CHANGELOG can be parsed by the github action
