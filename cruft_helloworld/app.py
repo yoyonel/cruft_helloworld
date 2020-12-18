@@ -1,36 +1,38 @@
 #!/usr/bin/env python -*- coding: utf-8 -*-
 """
+Usage: app.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  hello-world  Print a Hello-World message
+
+
 Usage: app.py hello-world [OPTIONS]
 
 Options:
   --globe-emoji [EUROPE_AFRICA|ASIA_AUSTRALIA|AMERICAS|WITH_MERIDIANS]
   -h, --help                      Show this message and exit.
 """
-from enum import Enum
+from typing import Optional
 
 import click
 from rich.console import Console
 
+from cruft_helloworld.tools.enums import GlobeEmoji
+from cruft_helloworld.tools.globe_emoji_with_geoip import (
+    find_globe_emoji_from_external_ip,
+)
+
 console = Console()
-
-
-class GlobeEmoji(Enum):
-    """
-    Declare enums for click option (`--globe-emoji`)
-    and do (in the same time) a mapping between enum -> emoji name
-    """
-
-    EUROPE_AFRICA = "globe_showing_europe-africa"
-    ASIA_AUSTRALIA = "globe_showing_asia-australia"
-    AMERICAS = "globe_showing_americas"
-    WITH_MERIDIANS = "globe_with_meridians"
 
 
 @click.command(short_help="Print a Hello-World message")
 @click.option(
     "--globe-emoji",
-    default="EUROPE_AFRICA",
     required=False,
+    default=None,
     # https://github.com/pallets/click/issues/605#issuecomment-667726724
     type=click.Choice(
         [e_global_emoji.name for e_global_emoji in GlobeEmoji], case_sensitive=False
@@ -39,7 +41,8 @@ class GlobeEmoji(Enum):
     if value
     else None,
 )
-def hello_world(globe_emoji: str):
+def hello_world(globe_emoji: Optional[str]):
+    globe_emoji = globe_emoji or find_globe_emoji_from_external_ip()
     console.print(f"Hello :{globe_emoji}:")
 
 
