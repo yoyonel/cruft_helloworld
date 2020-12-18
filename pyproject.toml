@@ -31,6 +31,11 @@ packages = [
   { include = "cruft_helloworld" },
 ]
 
+# https://python-poetry.org/docs/pyproject/#scripts
+[tool.poetry.scripts]
+# https://click.palletsprojects.com/en/5.x/setuptools/#scripts-in-packages
+helloworld = "cruft_helloworld.app:cli"
+
 [tool.poetry.dependencies]
 python = ">=3.7, <4.0"
 click = "^7.1.2"
