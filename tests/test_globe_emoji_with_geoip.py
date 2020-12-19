@@ -17,11 +17,6 @@ def test_get_external_ip():
     assert len(list(map(int, get_external_ip().split(".")))) == 4
 
 
-def test_get_external_ip_with_fail(mocker):
-    # TODO: mock on 'requests.get(...)' and test with none result
-    pass
-
-
 def test_find_globe_emoji_from_external_ip():
     """
     Basic test on finding a valid emoji from external ip
@@ -37,6 +32,7 @@ def test_find_globe_emoji_from_external_ip():
         # ("23.212.112.0", GlobeEmoji.ASIA_AUSTRALIA),    # Indonesia (Fail -> america)
         ("1.72.0.0", GlobeEmoji.ASIA_AUSTRALIA),  # Japan
         ("1.120.0.0", GlobeEmoji.ASIA_AUSTRALIA),  # Australia
+        (None, GlobeEmoji.EUROPE_AFRICA),
     ),
 )
 def test_find_globe_emoji_with_mock(mocker, external_ip, e_globe_emoji_expected):
