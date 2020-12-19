@@ -11,7 +11,7 @@ class IsoCodeContinentEmoji(Enum):
     AS = "globe_showing_asia-australia"  # Asia
     EU = "globe_showing_europe-africa"  # Europe
     NA = "globe_showing_americas"  # North America
-    OC = "globe_with_meridians"  # Oceania
+    OC = "globe_showing_asia-australia"  # Oceania
     SA = "globe_showing_americas"  # South America
 
 
