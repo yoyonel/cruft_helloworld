@@ -10,7 +10,8 @@ Cruft Python Hello-World
 
 ## Requirements
 
-* Python 3.6.1 or newer
+* Python 3.7.3 or newer
+* [poetry](https://poetry.eustance.io/) 1.1 or newer
 
 ## Installation
 

@@ -6,8 +6,9 @@ from cruft_helloworld.tools.globe_emoji_with_geoip import (
     get_external_ip,
 )
 
+pytestmark = pytest.mark.external
 
-@pytest.mark.external
+
 def test_get_external_ip():
     """
     Basic test for validate the external ip address retrieve (from duckduck JSON API)
@@ -21,7 +22,6 @@ def test_get_external_ip_with_fail(mocker):
     pass
 
 
-@pytest.mark.external
 def test_find_globe_emoji_from_external_ip():
     """
     Basic test on finding a valid emoji from external ip
@@ -29,7 +29,6 @@ def test_find_globe_emoji_from_external_ip():
     assert find_globe_emoji_from_external_ip() in [enum.value for enum in GlobeEmoji]
 
 
-@pytest.mark.external
 @pytest.mark.parametrize(
     "external_ip,e_globe_emoji_expected",
     (
