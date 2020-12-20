@@ -11,8 +11,12 @@ Cruft Python Hello-World
 ## Requirements
 
 * Python 3.6.1 or newer
-* [poetry](https://poetry.eustance.io/) 1.1 or newer
 
+## Installation
+
+```sh
+pip install cruft_helloworld
+```
 
 ## Development
 
@@ -49,4 +53,3 @@ cruft update
 ```
 
 in the root of this repository.
-
