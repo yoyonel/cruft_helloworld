@@ -3,11 +3,14 @@
 Usage: app.py [OPTIONS] COMMAND [ARGS]...
 
 Options:
-  --log-level TEXT  set logging level
-  --help            Show this message and exit.
+  --log-level [CRITICAL|FATAL|ERROR|WARN|WARNING|INFO|DEBUG|NOTSET]
+                                  set logging level
+  --help                          Show this message and exit.
 
 Commands:
   hello-world*  Print a Hello-World message
+
+---
 
 Usage: app.py hello-world [OPTIONS]
 

@@ -52,15 +52,12 @@ def _pc(
     )
 )
 def test_find_globe_emoji_with_mock(
-    mocker, external_ip, e_globe_emoji_expected, raises_context
+    monkeypatch, external_ip, e_globe_emoji_expected, raises_context
 ):
-    def _get_external_ip() -> str:
-        return external_ip
-
-    # TODO: update pytest-mock version and change (accordingly with) the (new) mock strategy
-    with mocker.patch(
+    # https://docs.pytest.org/en/stable/reference.html?highlight=setatt#pytest.MonkeyPatch.setattr
+    monkeypatch.setattr(
         "cruft_helloworld.tools.globe_emoji_with_geoip.get_external_ip",
-        side_effect=_get_external_ip,
-    ):
-        with raises_context:
-            assert find_globe_emoji_from_external_ip() == e_globe_emoji_expected.value
+        lambda: external_ip,
+    )
+    with raises_context:
+        assert find_globe_emoji_from_external_ip() == e_globe_emoji_expected.value
