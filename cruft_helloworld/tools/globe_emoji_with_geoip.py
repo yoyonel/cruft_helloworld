@@ -18,7 +18,7 @@ def get_external_ip() -> Optional[str]:
     uri_to_geoip_db = "https://api.duckduckgo.com/?q=ip&format=json"
     raw = requests.get(uri_to_geoip_db)
     answer = raw.json().get("Answer", "")
-    logger.debug("answer from 'get %s'='%s'", uri_to_geoip_db, answer)
+    logger.debug("answer from 'get %s' -> '%s'", uri_to_geoip_db, answer)
     # https://regex101.com/r/NMdWXw/1
     regex = r"Your IP address is (?P<ip_address>[0-9]*\.[0-9]+\.[0-9]+\.[0-9]+) in.*"
     match = re.match(regex, answer)

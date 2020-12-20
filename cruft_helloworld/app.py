@@ -33,7 +33,12 @@ console = Console()
 
 # https://pypi.org/project/click-default-group/
 # TODO: find a way to define log-level without removing default group command
-@click.option("--log-level", default="WARN", help="set logging level")
+@click.option(
+    "--log-level",
+    type=click.Choice(logging._nameToLevel.keys()),
+    default="WARN",
+    help="set logging level",
+)
 @click.group(cls=DefaultGroup, default="hello-world", default_if_no_args=True)
 def cli(log_level):
     config_loggers(default_logger_level=getattr(logging, log_level.upper()))
