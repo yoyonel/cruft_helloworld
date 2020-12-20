@@ -3,11 +3,11 @@
 Usage: app.py [OPTIONS] COMMAND [ARGS]...
 
 Options:
-  --help  Show this message and exit.
+  --log-level TEXT  set logging level
+  --help            Show this message and exit.
 
 Commands:
   hello-world*  Print a Hello-World message
-
 
 Usage: app.py hello-world [OPTIONS]
 
@@ -15,12 +15,14 @@ Options:
   --globe-emoji [EUROPE_AFRICA|ASIA_AUSTRALIA|AMERICAS|WITH_MERIDIANS]
   --help                          Show this message and exit.
 """
+import logging
 from typing import Optional
 
 import click
 from click_default_group import DefaultGroup
 from rich.console import Console
 
+from cruft_helloworld.tools.config_loggers import config_loggers
 from cruft_helloworld.tools.enums import GlobeEmoji
 from cruft_helloworld.tools.globe_emoji_with_geoip import (
     find_globe_emoji_from_external_ip,
@@ -30,9 +32,11 @@ console = Console()
 
 
 # https://pypi.org/project/click-default-group/
+# TODO: find a way to define log-level without removing default group command
+@click.option("--log-level", default="WARN", help="set logging level")
 @click.group(cls=DefaultGroup, default="hello-world", default_if_no_args=True)
-def cli():
-    pass
+def cli(log_level):
+    config_loggers(default_logger_level=getattr(logging, log_level.upper()))
 
 
 @cli.command(short_help="Print a Hello-World message")

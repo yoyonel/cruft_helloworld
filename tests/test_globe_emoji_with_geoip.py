@@ -6,7 +6,7 @@ from cruft_helloworld.tools.globe_emoji_with_geoip import (
     get_external_ip,
 )
 
-pytestmark = pytest.mark.external
+pytestmark = pytest.mark.using_geoip
 
 
 def test_get_external_ip():
