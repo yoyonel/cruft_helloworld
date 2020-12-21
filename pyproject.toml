@@ -67,7 +67,6 @@ pytest-click = "^1.0.2"
 pytest-faker = "^2.0.0"
 pytest-mock = "1.10.4"
 tox-pyenv = "^1.1.0"
-pytest-monitor = "^1.5.0"
 pytest-parametrization = "^2019.1.4"
 
 [tool.black]
@@ -100,3 +99,4 @@ build-backend = "poetry.core.masonry.api"
 markers = [
     "using_geoip"
 ]
+addopts = "--doctest-modules"
