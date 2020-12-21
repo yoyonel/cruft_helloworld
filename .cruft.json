@@ -1,6 +1,6 @@
 {
     "template": "https://github.com/escaped/cookiecutter-pypackage.git",
-    "commit": "8968d7dec2ede91acacc207cc87cf55c39915f54",
+    "commit": "296fc14ff90b7d09f95f49ced2a605974106d697",
     "context": {
         "cookiecutter": {
             "author": "lionel atty",
