@@ -14,22 +14,22 @@ homepage = "https://github.com/yoyonel/cruft_helloworld"
 repository = "https://github.com/yoyonel/cruft_helloworld"
 
 classifiers = [
-  "Development Status :: 4 - Beta",
-  "Environment :: Web Environment",
-  "Intended Audience :: Developers",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "Typing :: Typed",
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
 ]
 
 include = ["cruft_helloworld/py.typed"]
 packages = [
-  { include = "cruft_helloworld" },
+    { include = "cruft_helloworld" },
 ]
 
 # https://python-poetry.org/docs/pyproject/#scripts
@@ -91,7 +91,5 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-markers = [
-    "using_geoip"
-]
+markers = ["using_geoip"]
 addopts = "--doctest-modules"
