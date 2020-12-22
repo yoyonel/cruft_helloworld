@@ -4,11 +4,12 @@ from typing import Any, ContextManager, Optional
 import pytest
 from parametrization import Parametrization
 
-from cruft_helloworld.tools.enums import GlobeEmoji
-from cruft_helloworld.tools.globe_emoji_with_geoip import (
+from cruft_helloworld.services.globe_emoji_with_geoip import (
     find_globe_emoji_from_external_ip,
     get_external_ip,
 )
+from cruft_helloworld.tools.enums import GlobeEmoji
+from tests.tools.monkeypath_target import build_target
 
 pytestmark = pytest.mark.using_geoip
 
@@ -55,9 +56,7 @@ def test_find_globe_emoji_with_mock(
     monkeypatch, external_ip, e_globe_emoji_expected, raises_context
 ):
     # https://docs.pytest.org/en/stable/reference.html?highlight=setatt#pytest.MonkeyPatch.setattr
-    monkeypatch.setattr(
-        "cruft_helloworld.tools.globe_emoji_with_geoip.get_external_ip",
-        lambda: external_ip,
-    )
+    # "cruft_helloworld.tools.globe_emoji_with_geoip.get_external_ip"
+    monkeypatch.setattr(build_target(get_external_ip), lambda: external_ip)
     with raises_context:
         assert find_globe_emoji_from_external_ip() == e_globe_emoji_expected.value

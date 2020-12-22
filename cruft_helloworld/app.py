@@ -25,11 +25,11 @@ import click
 from click_default_group import DefaultGroup
 from rich.console import Console
 
-from cruft_helloworld.tools.config_loggers import config_loggers
-from cruft_helloworld.tools.enums import GlobeEmoji
-from cruft_helloworld.tools.globe_emoji_with_geoip import (
+from cruft_helloworld.services.globe_emoji_with_geoip import (
     find_globe_emoji_from_external_ip,
 )
+from cruft_helloworld.tools.config_loggers import config_loggers
+from cruft_helloworld.tools.enums import GlobeEmoji
 
 console = Console()
 
