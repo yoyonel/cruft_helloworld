@@ -1,20 +1,20 @@
 from logging.config import dictConfig
-from typing import Iterable
+from typing import Dict, Iterable, Optional
 
 from cruft_helloworld.tools.dict_nested_update import nested_update
 
 
-def config_loggers(default_logger_level: str = "INFO"):
-    """"""
-    default_logging_handler = "human_readable-colored-stdout"
-    logging_config = None
-
+def config_loggers(
+    default_logger_level: str = "INFO",
+    default_logging_handler: str = "human_readable-colored-stdout",
+    logging_config: Optional[Dict] = None,
+    libs_names: Iterable[str] = (),
+) -> None:
     default_loggers_libs_config = {
         "handlers": [default_logging_handler],
         "propagate": True,
         "level": default_logger_level,
     }
-    libs_names: Iterable[str] = ()
 
     default_logging_config = {
         "version": 1,

@@ -63,6 +63,7 @@ tox-gh-actions = "^1.3.0"
 pytest-click = "^1.0.2"
 pytest-parametrization = "^2019.1.4"
 tox-pyenv = "^1.1.0"
+lxml = "^4.6.2"
 
 [tool.black]
 line-length = 88
