@@ -64,6 +64,7 @@ pytest-click = "^1.0.2"
 pytest-parametrization = "^2019.1.4"
 tox-pyenv = "^1.1.0"
 lxml = "^4.6.2"
+pytest-lazy-fixture = "^0.6.3"
 
 [tool.black]
 line-length = 88
@@ -91,6 +92,11 @@ exclude = '''
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+# https://docs.pytest.org/en/stable/customize.html?highlight=tool%20pytest%20ini_options#pyproject-toml
 [tool.pytest.ini_options]
-markers = ["using_geoip"]
+# https://docs.pytest.org/en/stable/mark.html#registering-marks
+markers = [
+    "use_internet: tests using external internet connection to perform"
+]
+# https://docs.pytest.org/en/stable/doctest.html?highlight=doctest%20modules#doctest-integration-for-modules-and-test-files
 addopts = "--doctest-modules"

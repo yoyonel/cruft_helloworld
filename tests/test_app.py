@@ -44,7 +44,7 @@ def test_error_app_cli_hello_world(cli_runner):
     assert f"invalid choice: {wrong_emoji_name}." in result.output
 
 
-@pytest.mark.using_geoip
+@pytest.mark.use_internet
 def test_app_cli_hello_world_without_option(cli_runner):
     with console.capture() as capture:
         result = cli_runner.invoke(hello_world)
