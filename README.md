@@ -33,7 +33,7 @@ poetry install
 poetry run pre-commit install
 ```
 
-to create a virtual enviroment containing all dependencies.
+to create a virtual environment containing all dependencies.
 Afterwards, You can run the test suite using
 
 ```bash

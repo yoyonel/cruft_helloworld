@@ -46,15 +46,15 @@ logger = logging.getLogger(__name__)
     help="set logging level",
 )
 @click.option(
-    '-v',
-    '--verbose',
+    "-v",
+    "--verbose",
     # https://click.palletsprojects.com/en/7.x/options/#counting
     count=True,
 )
 @click.group(cls=DefaultGroup, default="hello-world", default_if_no_args=True)
 def cli(log_level, verbose):
     if verbose:
-        default_logger_level = 'INFO' if verbose == 1 else 'DEBUG'
+        default_logger_level = "INFO" if verbose == 1 else "DEBUG"
     else:
         default_logger_level = getattr(logging, log_level.upper())
     config_loggers(default_logger_level=default_logger_level)
@@ -78,5 +78,5 @@ def hello_world(globe_emoji: Optional[str]):
     console.print(f"Hello :{globe_emoji}:")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()

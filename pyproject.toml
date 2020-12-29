@@ -65,6 +65,8 @@ pytest-parametrization = "^2019.1.4"
 tox-pyenv = "^1.1.0"
 lxml = "^4.6.2"
 pytest-lazy-fixture = "^0.6.3"
+aiohttp = "^3.7.3"
+aiohttp_cors = "^0.7.0"
 
 [tool.black]
 line-length = 88
