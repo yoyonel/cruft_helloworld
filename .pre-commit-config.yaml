@@ -31,3 +31,15 @@ repos:
         language: system
         entry: poetry run flake8
         types: [python]
+
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v2.1.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/pre-commit
+    rev: v1.14.2
+    hooks:
+      - id: validate_manifest

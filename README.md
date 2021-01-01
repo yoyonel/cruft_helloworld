@@ -46,7 +46,7 @@ style.
 ### Pycharm debugging
 [Debuggers and PyCharm](https://pytest-cov.readthedocs.io/en/latest/debuggers.html)
 > Coverage does not play well with other tracers simultaneously running.
-> This manifests itself in behaviour that PyCharm might not hit a breakpoint no matter what the user does. 
+> This manifests itself in behaviour that PyCharm might not hit a breakpoint no matter what the user does.
 
 ### Cookiecutter template
 

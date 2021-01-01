@@ -35,4 +35,3 @@ jobs:
           body: ""
           branch: chore/cookiecutter-pypackage
           delete-branch: true
-
