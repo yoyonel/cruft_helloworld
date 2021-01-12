@@ -67,6 +67,9 @@ lxml = "^4.6.2"
 pytest-lazy-fixture = "^0.6.3"
 aiohttp = "^3.7.3"
 aiohttp_cors = "^0.7.0"
+pytest-sugar = "^0.9.4"
+pytest-randomly = "^3.5.0"
+pytest-xdist = {extras = ["psutil"], version = "^2.2.0"}
 
 [tool.black]
 line-length = 88
