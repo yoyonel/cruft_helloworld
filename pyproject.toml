@@ -50,10 +50,16 @@ rich = "^9.4.0"
 requests = "^2.25.1"
 
 [tool.poetry.dev-dependencies]
+autoflake = "^1.4"
 black = "^20.8b1"
 flake8 = "^3.8.3"
+flake8-bugbear = "^20.11.1"
+flake8-builtins = "^1.5.3"
+flake8-comprehensions = "^3.3.1"
+flake8-debugger = "^4.0.0"
 isort = "^5.5.2"
 mypy = "^0.782"
+pep8-naming = "^0.11.1"
 pre-commit = "^2.7.1"
 pytest = "^6.0.1"
 pytest-cov = "^2.10.1"
@@ -71,12 +77,6 @@ pytest-sugar = "^0.9.4"
 pytest-randomly = "^3.5.0"
 pytest-xdist = {extras = ["psutil"], version = "^2.2.0"}
 ipython = "<7.19.0"
-autoflake = "^1.4"
-flake8-bugbear = "^20.11.1"
-flake8-builtins = "^1.5.3"
-flake8-comprehensions = "^3.3.1"
-flake8-debugger = "^4.0.0"
-pep8-naming = "^0.11.1"
 
 [tool.black]
 line-length = 88
