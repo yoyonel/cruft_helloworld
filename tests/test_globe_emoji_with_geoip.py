@@ -1,8 +1,8 @@
-import inspect
 import logging
 import sys
 from contextlib import nullcontext
-from typing import Any, ContextManager, Optional
+from dataclasses import asdict, dataclass, field
+from typing import Any, ContextManager, Dict, Optional
 
 import pytest
 import requests
@@ -14,6 +14,7 @@ from cruft_helloworld.services.globe_emoji_with_geoip import (
     get_external_ip,
 )
 from cruft_helloworld.tools.enums import GlobeEmoji
+from tests.tools.locals_signature import locals_func_to_dict_signature_params
 from tests.tools.monkeypath_target import build_target
 
 
@@ -31,33 +32,40 @@ def test_find_globe_emoji_from_external_ip():
     """
     Basic test on finding a valid emoji from external ip
     """
-    assert find_globe_emoji_from_external_ip() in [enum.value for enum in GlobeEmoji]
+    assert find_globe_emoji_from_external_ip() in map(lambda ge: ge.value, GlobeEmoji)
+
+
+nullcontext_instance = nullcontext()
 
 
 def _parametrization_case(
     name: str,
     external_ip: Optional[str],
     e_globe_emoji_expected: GlobeEmoji,
-    raises_context_expected: ContextManager[Any] = nullcontext(),
+    raises_context_expected: ContextManager[Any] = nullcontext_instance,
 ) -> dict:
     """
     >>> _parametrization_case("name", None, GlobeEmoji.EUROPE_AFRICA)   #doctest: +ELLIPSIS
     {'name': 'name', 'external_ip': None, 'e_globe_emoji_expected': <GlobeEmoji.EUROPE_AFRICA: 'globe_showing_europe-africa'>, \
 'raises_context_expected': <contextlib.nullcontext object at 0x...>}
     """
-    # https://www.programcreek.com/python/example/81294/inspect.signature
-    _locals = locals()
-    return {
-        p.name: _locals[p.name]
-        for p in inspect.signature(_parametrization_case).parameters.values()
-        if p.kind == inspect.Parameter.POSITIONAL_OR_KEYWORD
-    }
+    return locals_func_to_dict_signature_params(locals(), _parametrization_case)
+
+
+@dataclass
+class ParametrizationCase(Dict):
+    name: str
+    external_ip: Optional[str]
+    e_globe_emoji_expected: GlobeEmoji
+    raises_context_expected: ContextManager[Any] = field(default_factory=nullcontext)
 
 
 # https://github.com/singular-labs/parametrization
 @Parametrization.autodetect_parameters()
 @Parametrization.case(
-    **_parametrization_case("IP from Congo", "57.82.224.0", GlobeEmoji.EUROPE_AFRICA)
+    **asdict(
+        ParametrizationCase("IP from Congo", "57.82.224.0", GlobeEmoji.EUROPE_AFRICA)
+    )
 )
 @Parametrization.case(
     **_parametrization_case("IP from Chile", "8.242.200.0", GlobeEmoji.AMERICAS)
