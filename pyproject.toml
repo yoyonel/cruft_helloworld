@@ -20,6 +20,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -38,7 +39,7 @@ packages = [
 helloworld = "cruft_helloworld.app:cli"
 
 [tool.poetry.dependencies]
-python = ">=3.7, <4.0"
+python = ">=3.6.9, <4.0"
 colorlog = "^4.6.2"
 click = "^7.1.2"
 click-default-group = "^1.2.2"
@@ -51,7 +52,6 @@ requests = "^2.25.1"
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
 flake8 = "^3.8.3"
-ipython = "^7.19.0"
 isort = "^5.5.2"
 mypy = "^0.782"
 pre-commit = "^2.7.1"
@@ -70,6 +70,7 @@ aiohttp_cors = "^0.7.0"
 pytest-sugar = "^0.9.4"
 pytest-randomly = "^3.5.0"
 pytest-xdist = {extras = ["psutil"], version = "^2.2.0"}
+ipython = "<7.19.0"
 
 [tool.black]
 line-length = 88

@@ -1,6 +1,6 @@
 import logging
 import sys
-from contextlib import nullcontext
+from contextlib import ExitStack as DoesNotRaise
 from dataclasses import asdict, dataclass, field
 from typing import Any, ContextManager, Dict, Optional
 
@@ -16,6 +16,31 @@ from cruft_helloworld.services.globe_emoji_with_geoip import (
 from cruft_helloworld.tools.enums import GlobeEmoji
 from tests.tools.locals_signature import locals_func_to_dict_signature_params
 from tests.tools.monkeypath_target import build_target
+
+# https://docs.pytest.org/en/latest/example/parametrize.html#parametrizing-conditional-raising
+nullcontext_instance = DoesNotRaise()
+
+
+def _parametrization_case(
+    name: str,
+    external_ip: Optional[str],
+    e_globe_emoji_expected: GlobeEmoji,
+    raises_context_expected: ContextManager[Any] = nullcontext_instance,
+) -> dict:
+    """
+    >>> _parametrization_case("name", None, GlobeEmoji.EUROPE_AFRICA)   #doctest: +ELLIPSIS
+    {'name': 'name', 'external_ip': None, 'e_globe_emoji_expected': <GlobeEmoji.EUROPE_AFRICA: 'globe_showing_europe-africa'>, \
+'raises_context_expected': <contextlib.ExitStack object at 0x...>}
+    """
+    return locals_func_to_dict_signature_params(locals(), _parametrization_case)
+
+
+@dataclass
+class ParametrizationCase(Dict):
+    name: str
+    external_ip: Optional[str]
+    e_globe_emoji_expected: GlobeEmoji
+    raises_context_expected: ContextManager[Any] = field(default=nullcontext_instance)
 
 
 @pytest.mark.use_internet
@@ -33,31 +58,6 @@ def test_find_globe_emoji_from_external_ip():
     Basic test on finding a valid emoji from external ip
     """
     assert find_globe_emoji_from_external_ip() in map(lambda ge: ge.value, GlobeEmoji)
-
-
-nullcontext_instance = nullcontext()
-
-
-def _parametrization_case(
-    name: str,
-    external_ip: Optional[str],
-    e_globe_emoji_expected: GlobeEmoji,
-    raises_context_expected: ContextManager[Any] = nullcontext_instance,
-) -> dict:
-    """
-    >>> _parametrization_case("name", None, GlobeEmoji.EUROPE_AFRICA)   #doctest: +ELLIPSIS
-    {'name': 'name', 'external_ip': None, 'e_globe_emoji_expected': <GlobeEmoji.EUROPE_AFRICA: 'globe_showing_europe-africa'>, \
-'raises_context_expected': <contextlib.nullcontext object at 0x...>}
-    """
-    return locals_func_to_dict_signature_params(locals(), _parametrization_case)
-
-
-@dataclass
-class ParametrizationCase(Dict):
-    name: str
-    external_ip: Optional[str]
-    e_globe_emoji_expected: GlobeEmoji
-    raises_context_expected: ContextManager[Any] = field(default_factory=nullcontext)
 
 
 # https://github.com/singular-labs/parametrization
