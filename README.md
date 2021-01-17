@@ -10,7 +10,8 @@ Cruft Python Hello-World
 
 ## Requirements
 
-* Python 3.6.1 or newer
+* Python 3.7.3 or newer
+* [poetry](https://poetry.eustance.io/) 1.1 or newer
 
 ## Installation
 
@@ -32,7 +33,7 @@ poetry install
 poetry run pre-commit install
 ```
 
-to create a virtual enviroment containing all dependencies.
+to create a virtual environment containing all dependencies.
 Afterwards, You can run the test suite using
 
 ```bash
@@ -41,6 +42,11 @@ poetry run pytest
 
 This repository follows the [Conventional Commits](https://www.conventionalcommits.org/)
 style.
+
+### Pycharm debugging
+[Debuggers and PyCharm](https://pytest-cov.readthedocs.io/en/latest/debuggers.html)
+> Coverage does not play well with other tracers simultaneously running.
+> This manifests itself in behaviour that PyCharm might not hit a breakpoint no matter what the user does.
 
 ### Cookiecutter template
 
