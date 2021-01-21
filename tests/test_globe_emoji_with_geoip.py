@@ -11,7 +11,7 @@ from pytest_lazyfixture import lazy_fixture
 
 from cruft_helloworld.services.globe_emoji_with_geoip import (
     find_globe_emoji_from_external_ip,
-    get_external_ip,
+    get_external_ipv4,
 )
 from cruft_helloworld.tools.enums import GlobeEmoji
 from tests.tools.locals_signature import locals_func_to_dict_signature_params
@@ -44,12 +44,12 @@ class ParametrizationCase(Dict):
 
 
 @pytest.mark.use_internet
-def test_get_external_ip():
+def test_get_external_ipv4():
     """
     Basic test for validate the external ip address retrieve (from DuckDuckGo JSON API)
     => 4 digits separate by '.'
     """
-    assert len(list(map(int, get_external_ip().split(".")))) == 4
+    assert len(list(map(int, format(get_external_ipv4()).split(".")))) == 4
 
 
 @pytest.mark.use_internet
@@ -93,7 +93,7 @@ def test_find_globe_emoji_with_world_ips(
     monkeypatch, external_ip, e_globe_emoji_expected, raises_context_expected
 ):
     # https://docs.pytest.org/en/stable/reference.html?highlight=setatt#pytest.MonkeyPatch.setattr
-    monkeypatch.setattr(build_target(get_external_ip), lambda: external_ip)
+    monkeypatch.setattr(build_target(get_external_ipv4), lambda: external_ip)
     with raises_context_expected:
         assert find_globe_emoji_from_external_ip() == e_globe_emoji_expected.value
 
@@ -128,10 +128,10 @@ def test_find_globe_emoji_with_timeout(
     # https://docs.python.org/3/library/sys.html#sys.float_info
     test_timeout = sys.float_info.min
 
-    def _get_external_ip(*_args, **_kwargs):
-        return get_external_ip(default_timeout=test_timeout)
+    def _get_external_ipv4(*_args, **_kwargs):
+        return get_external_ipv4(default_timeout=test_timeout)
 
-    monkeypatch.setattr(build_target(get_external_ip), _get_external_ip)
+    monkeypatch.setattr(build_target(get_external_ipv4), _get_external_ipv4)
     caplog.set_level(logging.DEBUG)
 
     # https://stackoverflow.com/questions/12627118/get-a-function-arguments-default-value
