@@ -46,9 +46,9 @@ jobs:
     needs: [lint_cruft]
     runs-on: ${{ matrix.platform }}
     strategy:
-      max-parallel: 4
+      max-parallel: 12
       matrix:
-        platform: [ubuntu-latest]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [3.6, 3.7, 3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
@@ -67,6 +67,9 @@ jobs:
         env:
           PLATFORM: ${{ matrix.platform }}
       - name: Coveralls
+        # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsif
+        # Error: Container action is only supported on Linux
+        if: ${{ matrix.platform == 'ubuntu-latest' }}
         uses: AndreMiras/coveralls-python-action@develop
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
