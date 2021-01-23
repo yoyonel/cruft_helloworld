@@ -1,8 +1,8 @@
 import logging
 import sys
 from contextlib import ExitStack as DoesNotRaise
-from dataclasses import asdict, dataclass, field
-from typing import Any, ContextManager, Dict, Optional
+from dataclasses import dataclass, field
+from typing import Any, ContextManager, Optional
 
 import pytest
 import requests
@@ -14,75 +14,45 @@ from cruft_helloworld.services.globe_emoji_with_geoip import (
     get_external_ipv4,
 )
 from cruft_helloworld.tools.enums import GlobeEmoji
-from tests.tools.locals_signature import locals_func_to_dict_signature_params
 from tests.tools.monkeypath_target import build_target
 
 # https://docs.pytest.org/en/latest/example/parametrize.html#parametrizing-conditional-raising
+from tests.tools.parametrization_case import IParametrizationCase
+
 nullcontext_instance = DoesNotRaise()
 
 
-def _parametrization_case(
-    name: str,
-    external_ip: Optional[str],
-    e_globe_emoji_expected: GlobeEmoji,
-    raises_context_expected: ContextManager[Any] = nullcontext_instance,
-) -> dict:
-    """
-    >>> _parametrization_case("name", None, GlobeEmoji.EUROPE_AFRICA)   #doctest: +ELLIPSIS
-    {'name': 'name', 'external_ip': None, 'e_globe_emoji_expected': <GlobeEmoji.EUROPE_AFRICA: 'globe_showing_europe-africa'>, \
-'raises_context_expected': <contextlib.ExitStack object at 0x...>}
-    """
-    return locals_func_to_dict_signature_params(locals(), _parametrization_case)
-
-
 @dataclass
-class ParametrizationCase(Dict):
-    name: str
+class ParametrizationCase(IParametrizationCase):
     external_ip: Optional[str]
     e_globe_emoji_expected: GlobeEmoji
     raises_context_expected: ContextManager[Any] = field(default=nullcontext_instance)
 
 
-@pytest.mark.use_internet
-def test_get_external_ipv4():
-    """
-    Basic test for validate the external ip address retrieve (from DuckDuckGo JSON API)
-    => 4 digits separate by '.'
-    """
-    assert len(list(map(int, format(get_external_ipv4()).split(".")))) == 4
-
-
-@pytest.mark.use_internet
-def test_find_globe_emoji_from_external_ip():
-    """
-    Basic test on finding a valid emoji from external ip
-    """
-    assert find_globe_emoji_from_external_ip() in map(lambda ge: ge.value, GlobeEmoji)
-
-
 # https://github.com/singular-labs/parametrization
 @Parametrization.autodetect_parameters()
-@Parametrization.case(
-    **asdict(
-        ParametrizationCase("IP from Congo", "57.82.224.0", GlobeEmoji.EUROPE_AFRICA)
+@IParametrizationCase.case(
+    # create parametrize case without pytest name
+    ParametrizationCase.create(
+        external_ip="57.82.224.0", e_globe_emoji_expected=GlobeEmoji.EUROPE_AFRICA
     )
 )
-@Parametrization.case(
-    **_parametrization_case("IP from Chile", "8.242.200.0", GlobeEmoji.AMERICAS)
+@IParametrizationCase.case(
+    ParametrizationCase("IP from Chile", "8.242.200.0", GlobeEmoji.AMERICAS)
 )
-@Parametrization.case(
-    **_parametrization_case("IP from Japan", "1.72.0.0", GlobeEmoji.ASIA_AUSTRALIA)
+@IParametrizationCase.case(
+    ParametrizationCase("IP from Japan", "1.72.0.0", GlobeEmoji.ASIA_AUSTRALIA)
 )
-@Parametrization.case(
-    **_parametrization_case("IP from Australia", "1.120.0.0", GlobeEmoji.ASIA_AUSTRALIA)
+@IParametrizationCase.case(
+    ParametrizationCase("IP from Australia", "1.120.0.0", GlobeEmoji.ASIA_AUSTRALIA)
 )
-@Parametrization.case(
-    **_parametrization_case(
+@IParametrizationCase.case(
+    ParametrizationCase(
         "Can't find external ip", None, lazy_fixture("default_iso_code_continent_emoji")
     )
 )
-@Parametrization.case(
-    **_parametrization_case(
+@IParametrizationCase.case(
+    ParametrizationCase(
         "[FAIL] Indonesia -> America",
         "23.212.112.0",
         GlobeEmoji.ASIA_AUSTRALIA,
@@ -143,3 +113,20 @@ def test_find_globe_emoji_with_timeout(
     assert records[0].message == error_msg
     assert records[1].levelname == "DEBUG"
     assert records[1].message == "No external IP found"
+
+
+@pytest.mark.use_internet
+def test_get_external_ipv4():
+    """
+    Basic test for validate the external ip address retrieve (from DuckDuckGo JSON API)
+    => 4 digits separate by '.'
+    """
+    assert len(list(map(int, format(get_external_ipv4()).split(".")))) == 4
+
+
+@pytest.mark.use_internet
+def test_find_globe_emoji_from_external_ip():
+    """
+    Basic test on finding a valid emoji from external ip
+    """
+    assert find_globe_emoji_from_external_ip() in map(lambda ge: ge.value, GlobeEmoji)
