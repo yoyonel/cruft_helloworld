@@ -77,16 +77,18 @@ def test_find_globe_emoji_with_no_internet(
     monkeypatch.setattr(
         "cruft_helloworld.services.globe_emoji_with_geoip.requests.get", _requests_get
     )
-    caplog.set_level(logging.DEBUG)
+    with caplog.at_level(logging.DEBUG):
+        result = find_globe_emoji_from_external_ip()
+    expected = default_iso_code_continent_emoji.value
+    assert result == expected
 
-    # https://stackoverflow.com/questions/12627118/get-a-function-arguments-default-value
-    assert find_globe_emoji_from_external_ip() == default_iso_code_continent_emoji.value
-
-    assert caplog.records[0].levelname == "ERROR"
+    records = [record for record in caplog.records if 'cruft_helloworld' in record.name]
+    assert len(records) == 2, records
+    assert records[0].levelname == "ERROR"
     error_msg = "Can't perform internet request: requests.get(https://api.duckduckgo.com/?q=ip&format=json)!"
-    assert caplog.records[0].message == error_msg
-    assert caplog.records[1].levelname == "DEBUG"
-    assert caplog.records[1].message == "No external IP found"
+    assert records[0].message == error_msg
+    assert records[1].levelname == "DEBUG"
+    assert records[1].message == "No external IP found"
 
 
 @pytest.mark.use_internet
@@ -108,6 +110,7 @@ def test_find_globe_emoji_with_timeout(
     assert find_globe_emoji_from_external_ip() == default_iso_code_continent_emoji.value
 
     records = [record for record in caplog.records if 'cruft_helloworld' in record.name]
+    assert len(records) == 2, records
     assert records[0].levelname == "ERROR"
     error_msg = f"Timeout (={test_timeout:.5f}) occurred on request: requests.get(https://api.duckduckgo.com/?q=ip&format=json)!"
     assert records[0].message == error_msg
