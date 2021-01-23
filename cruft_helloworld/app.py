@@ -22,6 +22,8 @@ import logging
 from typing import Optional
 
 import click
+import pkg_resources
+import pyfiglet
 from click_default_group import DefaultGroup
 from rich.console import Console
 
@@ -30,6 +32,9 @@ from cruft_helloworld.services.globe_emoji_with_geoip import (
 )
 from cruft_helloworld.tools.config_loggers import config_loggers
 from cruft_helloworld.tools.enums import GlobeEmoji
+
+PACKAGE_NAME = "cruft_helloworld"
+__version__ = pkg_resources.get_distribution(PACKAGE_NAME).version
 
 console = Console()
 
@@ -51,21 +56,23 @@ logger = logging.getLogger(__name__)
     # https://click.palletsprojects.com/en/7.x/options/#counting
     count=True,
 )
-@click.group(
-    cls=DefaultGroup,
-    default="hello-world",
-    default_if_no_args=True,
-    invoke_without_command=True,
-)
-def cli(log_level, verbose):
+# https://click.palletsprojects.com/en/7.x/api/?highlight=version_option#click.version_option
+@click.version_option(prog_name=PACKAGE_NAME, version=__version__)
+@click.option("--banner/--show-banner", default=False)
+@click.group(cls=DefaultGroup, default="hello-world", invoke_without_command=True)
+@click.pass_context
+def cli(ctx, log_level, verbose, banner):
     if verbose:
         default_logger_level = "INFO" if verbose == 1 else "DEBUG"
     else:
         default_logger_level = getattr(logging, log_level.upper())
+    if banner:
+        ascii_banner = pyfiglet.figlet_format(f"{PACKAGE_NAME}\nversion {__version__}")
+        print(ascii_banner)
     config_loggers(default_logger_level=default_logger_level)
 
 
-@cli.command(short_help="Print a Hello-World message")
+@cli.command(default=True, short_help="Print a Hello-World message")
 @click.option(
     "--globe-emoji",
     required=False,
@@ -82,9 +89,6 @@ def hello_world(globe_emoji: Optional[str]):
     globe_emoji = globe_emoji or find_globe_emoji_from_external_ip()
     console.print(f"Hello :{globe_emoji}:")
 
-
-# https://www.python.org/dev/peps/pep-0484/
-cli.set_default_command(hello_world)  # type: ignore
 
 if __name__ == "__main__":
     cli()
