@@ -58,16 +58,23 @@ logger = logging.getLogger(__name__)
 )
 # https://click.palletsprojects.com/en/7.x/api/?highlight=version_option#click.version_option
 @click.version_option(prog_name=PACKAGE_NAME, version=__version__)
-@click.option("--banner/--show-banner", default=False)
-@click.group(cls=DefaultGroup, default="hello-world", invoke_without_command=True)
-@click.pass_context
-def cli(ctx, log_level, verbose, banner):
+# https://click.palletsprojects.com/en/7.x/options/?highlight=is_flag#boolean-flags
+@click.option("--banner", "--show-banner", is_flag=True, help="Show ASCII banner")
+@click.group(
+    cls=DefaultGroup,
+    default="hello-world",
+    default_if_no_args=True,
+    invoke_without_command=True,
+)
+def cli(log_level, verbose, banner):
     if verbose:
         default_logger_level = "INFO" if verbose == 1 else "DEBUG"
     else:
         default_logger_level = getattr(logging, log_level.upper())
     if banner:
-        ascii_banner = pyfiglet.figlet_format(f"{PACKAGE_NAME}\nversion {__version__}")
+        ascii_banner = pyfiglet.figlet_format(
+            f"{PACKAGE_NAME}\nversion {__version__}", font='slant', width=120
+        )
         print(ascii_banner)
     config_loggers(default_logger_level=default_logger_level)
 

@@ -3,7 +3,7 @@ import re
 import pytest
 from rich._emoji_codes import EMOJI
 
-from cruft_helloworld.app import console, hello_world
+from cruft_helloworld.app import cli, console, hello_world
 
 
 def test_app_cli_help(cli_runner):
@@ -13,6 +13,26 @@ def test_app_cli_help(cli_runner):
         "--globe-emoji [EUROPE_AFRICA|ASIA_AUSTRALIA|AMERICAS|WITH_MERIDIANS]"
         in result.output
     )
+
+
+def test_app_cli_version(cli_runner):
+    result = cli_runner.invoke(cli, ["--version"])
+    assert result.exit_code == 0
+    regex = r"(?P<package_name>.*), version (?P<version>[0-9]*\.[0-9]+\.[0-9])"
+    match = re.match(regex, result.output)
+    assert (
+        match
+    ), f"Can't extract informations from --version (click) option output='{result.output}'"
+
+
+@pytest.mark.skip
+@pytest.mark.parametrize("click_option", ("banner", "show-banner"))
+def test_app_cli_banner(isolated_cli_runner, click_option):
+    result = isolated_cli_runner.invoke(cli, [f"--{click_option}"])
+    assert result.exit_code == 0
+    assert (
+        result.output.count("\n") > 4
+    ), "Banner (click) banner doesn't produce (enough) ascii text"
 
 
 @pytest.mark.parametrize(
