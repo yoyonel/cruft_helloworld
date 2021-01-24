@@ -1,7 +1,7 @@
 import os
 import sys
 
-"""
+r"""
 To prevent this error when imported pyfiglet under Windows platform:
   __________________ ERROR collecting cruft_helloworld/app.py ___________________
   cruft_helloworld\app.py:26: in <module>
@@ -11,6 +11,6 @@ To prevent this error when imported pyfiglet under Windows platform:
   c:\hostedtoolcache\windows\python\3.8.6\x64\lib\os.py:675: in __getitem__
       raise KeyError(key) from None
   E   KeyError: 'APPDATA'
-"""  # noqa: W605
+"""
 if sys.platform == 'win32':
     os.environ["APPDATA"] = os.environ.get("APPDATA", "")

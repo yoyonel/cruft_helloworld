@@ -79,7 +79,7 @@ def cli(log_level, verbose, banner):
     config_loggers(default_logger_level=default_logger_level)
 
 
-@cli.command(default=True, short_help="Print a Hello-World message")
+@cli.command(short_help="Print a Hello-World message")
 @click.option(
     "--globe-emoji",
     required=False,
@@ -96,6 +96,9 @@ def hello_world(globe_emoji: Optional[str]):
     globe_emoji = globe_emoji or find_globe_emoji_from_external_ip()
     console.print(f"Hello :{globe_emoji}:")
 
+
+# https://www.python.org/dev/peps/pep-0484/
+cli.set_default_command(hello_world)  # type: ignore
 
 if __name__ == "__main__":
     cli()
