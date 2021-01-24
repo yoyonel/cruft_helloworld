@@ -3,7 +3,7 @@ import re
 import pytest
 from rich._emoji_codes import EMOJI
 
-from cruft_helloworld.app import cli, console, hello_world
+from cruft_helloworld.app import PACKAGE_NAME, cli, console, hello_world
 
 
 def test_app_cli_help(cli_runner):
@@ -25,14 +25,17 @@ def test_app_cli_version(cli_runner):
     ), f"Can't extract informations from --version (click) option output='{result.output}'"
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize("click_option", ("banner", "show-banner"))
-def test_app_cli_banner(isolated_cli_runner, click_option):
-    result = isolated_cli_runner.invoke(cli, [f"--{click_option}"])
+def test_app_cli_banner(cli_runner, click_option):
+    result = cli_runner.invoke(cli, [f"--{click_option}"])
     assert result.exit_code == 0
+    expected_output = f"{PACKAGE_NAME}, version x.x.x"
+    assert len(result.output) > len(
+        expected_output
+    ), "Banner (click) banner doesn't produce (enough) ASCII characters"
     assert (
         result.output.count("\n") > 4
-    ), "Banner (click) banner doesn't produce (enough) ascii text"
+    ), "Banner (click) banner doesn't produce (enough) lines"
 
 
 @pytest.mark.parametrize(

@@ -82,9 +82,6 @@ def test_find_globe_emoji_with_no_internet(
     expected = default_iso_code_continent_emoji.value
     assert result == expected
 
-    # https://stackoverflow.com/questions/12627118/get-a-function-arguments-default-value
-    assert find_globe_emoji_from_external_ip() == default_iso_code_continent_emoji.value
-
     records = [record for record in caplog.records if 'cruft_helloworld' in record.name]
     assert len(records) == 2, records
     assert records[0].levelname == "ERROR"
