@@ -1,6 +1,8 @@
 import os
 import sys
 
+import pkg_resources
+
 r"""
 To prevent this error when imported pyfiglet under Windows platform:
   __________________ ERROR collecting cruft_helloworld/app.py ___________________
@@ -14,3 +16,5 @@ To prevent this error when imported pyfiglet under Windows platform:
 """
 if sys.platform == 'win32':
     os.environ["APPDATA"] = os.environ.get("APPDATA", "")
+PACKAGE_NAME = "cruft_helloworld"
+__version__ = pkg_resources.get_distribution(PACKAGE_NAME).version

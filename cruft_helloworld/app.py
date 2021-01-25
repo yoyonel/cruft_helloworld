@@ -22,19 +22,16 @@ import logging
 from typing import Optional
 
 import click
-import pkg_resources
 import pyfiglet
 from click_default_group import DefaultGroup
 from rich.console import Console
 
+from cruft_helloworld import PACKAGE_NAME, __version__
 from cruft_helloworld.services.globe_emoji_with_geoip import (
     find_globe_emoji_from_external_ip,
 )
 from cruft_helloworld.tools.config_loggers import config_loggers
 from cruft_helloworld.tools.enums import GlobeEmoji
-
-PACKAGE_NAME = "cruft_helloworld"
-__version__ = pkg_resources.get_distribution(PACKAGE_NAME).version
 
 console = Console()
 

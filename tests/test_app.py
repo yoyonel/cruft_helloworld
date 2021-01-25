@@ -3,7 +3,8 @@ import re
 import pytest
 from rich._emoji_codes import EMOJI
 
-from cruft_helloworld.app import PACKAGE_NAME, cli, console, hello_world
+from cruft_helloworld import PACKAGE_NAME
+from cruft_helloworld.app import cli, console, hello_world
 
 
 def test_app_cli_help(cli_runner):
