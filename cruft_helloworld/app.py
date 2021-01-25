@@ -51,7 +51,12 @@ logger = logging.getLogger(__name__)
     # https://click.palletsprojects.com/en/7.x/options/#counting
     count=True,
 )
-@click.group(cls=DefaultGroup, default="hello-world", default_if_no_args=True)
+@click.group(
+    cls=DefaultGroup,
+    default="hello-world",
+    default_if_no_args=True,
+    invoke_without_command=True,
+)
 def cli(log_level, verbose):
     if verbose:
         default_logger_level = "INFO" if verbose == 1 else "DEBUG"
@@ -77,6 +82,9 @@ def hello_world(globe_emoji: Optional[str]):
     globe_emoji = globe_emoji or find_globe_emoji_from_external_ip()
     console.print(f"Hello :{globe_emoji}:")
 
+
+# https://www.python.org/dev/peps/pep-0484/
+cli.set_default_command(hello_world)  # type: ignore
 
 if __name__ == "__main__":
     cli()
