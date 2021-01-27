@@ -22,9 +22,11 @@ import logging
 from typing import Optional
 
 import click
+import pyfiglet
 from click_default_group import DefaultGroup
 from rich.console import Console
 
+from cruft_helloworld import __version__
 from cruft_helloworld.services.globe_emoji_with_geoip import (
     find_globe_emoji_from_external_ip,
 )
@@ -34,6 +36,10 @@ from cruft_helloworld.tools.enums import GlobeEmoji
 console = Console()
 
 logger = logging.getLogger(__name__)
+
+
+PACKAGE_NAME = "cruft_helloworld"
+PACKAGE_VERSION = __version__
 
 
 # https://pypi.org/project/click-default-group/
@@ -51,18 +57,23 @@ logger = logging.getLogger(__name__)
     # https://click.palletsprojects.com/en/7.x/options/#counting
     count=True,
 )
+@click.version_option(prog_name="cruft_helloworld")
+@click.option("--show-banner", is_flag=True, help="Show a ASCII banner")
 @click.group(
     cls=DefaultGroup,
     default="hello-world",
     default_if_no_args=True,
     invoke_without_command=True,
 )
-def cli(log_level, verbose):
+def cli(log_level, verbose, show_banner):
     if verbose:
         default_logger_level = "INFO" if verbose == 1 else "DEBUG"
     else:
         default_logger_level = getattr(logging, log_level.upper())
     config_loggers(default_logger_level=default_logger_level)
+    if show_banner:
+        # print the ASCII banner
+        pyfiglet.print_figlet(f"{PACKAGE_NAME}, version {PACKAGE_VERSION}")
 
 
 @cli.command(short_help="Print a Hello-World message")

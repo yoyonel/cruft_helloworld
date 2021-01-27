@@ -3,7 +3,32 @@ import re
 import pytest
 from rich._emoji_codes import EMOJI
 
-from cruft_helloworld.app import console, hello_world
+from cruft_helloworld.app import (
+    PACKAGE_NAME,
+    PACKAGE_VERSION,
+    cli,
+    console,
+    hello_world,
+)
+
+
+def test_app_cli_show_version(cli_runner):
+    result = cli_runner.invoke(cli, ["--version"])
+    assert result.exit_code == 0
+    application_name_expected = PACKAGE_NAME
+    application_version_expected = PACKAGE_VERSION
+    version_message_expected = (
+        f"{application_name_expected}, version {application_version_expected}\n"
+    )
+    assert result.output == version_message_expected
+
+
+def test_app_cli_show_banner(cli_runner):
+    result = cli_runner.invoke(cli, ["--show-banner"])
+    assert result.exit_code == 0
+    version_message = f"{PACKAGE_NAME}, version {PACKAGE_VERSION}"
+    assert len(result.output) > len(version_message)
+    assert result.output.count("\n") > 5
 
 
 def test_app_cli_help(cli_runner):
