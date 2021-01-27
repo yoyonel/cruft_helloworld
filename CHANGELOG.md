@@ -35,3 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Feature: add new option '--show-banner'
 - Feature: add new option '--version'
 - Feature: use ip_address for type hint and use it in 'get_external_ip'[v4]
+
+## [v0.4.2] - 2021-01-27
+### Added
+- Fix: support version from distribution informations
