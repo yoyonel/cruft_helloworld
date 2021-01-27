@@ -29,3 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI: Activate workflow on dev pushes
 - Core: Support for python 3.6.9
 - Core: Cruft - Update with template
+
+## [v0.4.0] - 2021-01-27
+### Added
+- Feature: add new option '--show-banner'
+- Feature: add new option '--version'
+- Feature: use ip_address for type hint and use it in 'get_external_ip'[v4]
