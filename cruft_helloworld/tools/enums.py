@@ -7,7 +7,7 @@ class IsoCodeContinentEmoji(Enum):
     """
 
     AF = "globe_showing_europe-africa"  # Africa
-    AN = "globe_with_meridians"  # Antarctica
+    AN = "glo   be_with_meridians"  # Antarctica
     AS = "globe_showing_asia-australia"  # Asia
     EU = "globe_showing_europe-africa"  # Europe
     NA = "globe_showing_americas"  # North America
