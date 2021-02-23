@@ -1,0 +1,6 @@
+diff a/.github/workflows/update.yml b/.github/workflows/update.yml	(rejected hunks)
+@@ -39,4 +49,3 @@ jobs:
+           body: ""
+           branch: chore/cookiecutter-pypackage
+           delete-branch: true
+-
