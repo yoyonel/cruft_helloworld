@@ -25,19 +25,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9.5
+          python-version: '3.10'
       - name: Resolve poetry dependency
-        uses: abatilo/actions-poetry@v2.0.0
-        with:
-          poetry-version: 1.1.4
+        uses: Gr1N/setup-poetry@v8
+      - name: Poetry version
+        run: poetry --version
       - name: Install project dependencies
         run: poetry install
+      - name: Configure GIT to use https:// instead of git://
+        run: git config --global url."https://".insteadOf git://
+      - name: Mypy install types
+        run: |
+          poetry run mypy . 2>&1 || true
+          poetry run mypy --install-types --non-interactive
       - name: Lint
         run: poetry run pre-commit run -a
 
