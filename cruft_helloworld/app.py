@@ -37,7 +37,6 @@ console = Console()
 
 logger = logging.getLogger(__name__)
 
-
 PACKAGE_NAME = "cruft_helloworld"
 PACKAGE_VERSION = __version__
 
@@ -46,7 +45,7 @@ PACKAGE_VERSION = __version__
 # TODO: find a way to define log-level without removing default group command
 @click.option(
     "--log-level",
-    type=click.Choice(logging._nameToLevel.keys()),
+    type=click.Choice(logging._nameToLevel.keys()),  # type: ignore
     default="WARN",
     show_default=True,
     help="set logging level",

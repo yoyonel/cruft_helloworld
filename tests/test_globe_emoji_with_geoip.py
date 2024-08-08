@@ -2,6 +2,7 @@ import logging
 import sys
 from contextlib import ExitStack as DoesNotRaise
 from dataclasses import dataclass, field
+from ipaddress import IPv4Address
 from typing import Any, ContextManager, Optional
 
 import pytest
@@ -28,14 +29,29 @@ class ParametrizationCase(IParametrizationCase):
     e_globe_emoji_expected: GlobeEmoji
     raises_context_expected: ContextManager[Any] = field(default=nullcontext_instance)
 
+    def __post_init__(self, *args, **kwargs) -> None:
+        """
+        Perform a dynamic validation (after instancing)
+        """
+        super().__post_init__(*args, **kwargs)
+
+        # if external_ip is defined
+        if self.external_ip:
+            try:
+                # validate with ipaddress.IPv4Address
+                IPv4Address(self.external_ip)
+            except ValueError:
+                raise ValueError(f"{self.external_ip=} is not a valid IPV4 address")  # type: ignore
+
 
 # https://github.com/singular-labs/parametrization
 @Parametrization.autodetect_parameters()
 @IParametrizationCase.case(
-    # create parametrize case without pytest name
-    ParametrizationCase.create(
-        external_ip="57.82.224.0", e_globe_emoji_expected=GlobeEmoji.EUROPE_AFRICA
-    )
+    # create parametrize case without pytest name (and without validation)
+    # ParametrizationCase.create(
+    #     external_ip="57.82.224.0", e_globe_emoji_expected=GlobeEmoji.EUROPE_AFRICA
+    # )
+    ParametrizationCase("", "57.82.224.0", GlobeEmoji.EUROPE_AFRICA)
 )
 @IParametrizationCase.case(
     ParametrizationCase("IP from Chile", "8.242.200.0", GlobeEmoji.AMERICAS)
@@ -112,7 +128,10 @@ def test_find_globe_emoji_with_timeout(
     records = [record for record in caplog.records if 'cruft_helloworld' in record.name]
     assert len(records) == 2, records
     assert records[0].levelname == "ERROR"
-    error_msg = f"Timeout (={test_timeout:.5f}) occurred on request: requests.get(https://api.duckduckgo.com/?q=ip&format=json)!"
+    error_msg = (
+        f"Timeout (={test_timeout:.5f}) occurred on request: "
+        f"requests.get(https://api.duckduckgo.com/?q=ip&format=json)!"
+    )
     assert records[0].message == error_msg
     assert records[1].levelname == "DEBUG"
     assert records[1].message == "No external IP found"
@@ -132,4 +151,4 @@ def test_find_globe_emoji_from_external_ip():
     """
     Basic test on finding a valid emoji from external ip
     """
-    assert find_globe_emoji_from_external_ip() in map(lambda ge: ge.value, GlobeEmoji)
+    assert find_globe_emoji_from_external_ip() in [ge.value for ge in GlobeEmoji]

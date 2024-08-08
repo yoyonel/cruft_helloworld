@@ -1,7 +1,7 @@
 import logging
 import re
-from ipaddress import IPv4Address, ip_address
-from typing import Optional
+from ipaddress import IPv4Address, IPv6Address, ip_address
+from typing import Optional, Union
 
 import requests
 from geoip import IPInfo, geolite2
@@ -11,7 +11,9 @@ from cruft_helloworld.tools.enums import IsoCodeContinentEmoji
 logger = logging.getLogger(__name__)
 
 
-def get_external_ipv4(default_timeout: float = 1.0) -> Optional[IPv4Address]:
+def get_external_ipv4(
+    default_timeout: float = 1.0,
+) -> Optional[Union[IPv4Address, IPv6Address]]:
     """
     Use DuckDuckGo (external communication) for resolve external ip
     """
