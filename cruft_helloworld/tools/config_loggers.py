@@ -1,6 +1,7 @@
 from logging.config import dictConfig
 from typing import Dict, Iterable, Optional
 
+from cruft_helloworld import __project_name__ as application_name
 from cruft_helloworld.tools.dict_nested_update import nested_update
 
 
@@ -27,6 +28,15 @@ def config_loggers(
                 "%(message)s "
                 "(%(bold)s%(filename)s%(reset)s:%(funcName)s:%(lineno)d)",
                 "()": "colorlog.ColoredFormatter",
+                "log_colors": {
+                    'DEBUG': 'cyan',
+                    'INFO': 'green',
+                    'WARNING': 'yellow',
+                    'ERROR': 'red',
+                    'CRITICAL': 'red,bg_white',
+                },
+                "datefmt": None,
+                "reset": True,
             },
         },
         "handlers": {
@@ -40,7 +50,7 @@ def config_loggers(
         },
         "loggers": {
             "root": {"handlers": [], "level": "NOTSET"},
-            "cruft_helloworld": {
+            application_name: {
                 "handlers": [default_logging_handler],
                 "propagate": True,
                 "level": default_logger_level,
