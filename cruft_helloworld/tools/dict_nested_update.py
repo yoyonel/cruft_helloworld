@@ -15,9 +15,11 @@ def nested_update(dict_1: Dict, dict_2: Union[Dict, Mapping]):
     return {
         **dict_1,
         **{
-            k: nested_update(dict_1.get(k, type(v)()), v)
-            if isinstance(v, collections.abc.Mapping)
-            else v
+            k: (
+                nested_update(dict_1.get(k, type(v)()), v)
+                if isinstance(v, collections.abc.Mapping)
+                else v
+            )
             for k, v in dict_2.items()
         },
     }

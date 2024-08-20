@@ -43,6 +43,7 @@
       bar
 
 """
+
 # patched version from fix at: https://github.com/click-contrib/click-default-group/pull/23/files
 import warnings
 

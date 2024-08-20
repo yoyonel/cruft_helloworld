@@ -1,6 +1,7 @@
 """
 https://www.python.org/dev/peps/pep-0557/#inheritance
 """
+
 from abc import ABC
 from dataclasses import InitVar, asdict, dataclass, field
 from typing import Optional
