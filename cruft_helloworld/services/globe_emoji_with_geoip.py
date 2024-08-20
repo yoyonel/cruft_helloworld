@@ -25,18 +25,20 @@ def get_external_ipv4(
     try:
         # https://requests.readthedocs.io/en/master/user/quickstart/#timeouts
         raw = requests.get(URI_TO_DDG_API, timeout=default_timeout)
-        answer: str = raw.json().get("Answer", "")
+        json_response = raw.json()
+        answer: str = json_response.get("Answer", "")
         logger.debug("request(%s).Answer -> %s", URI_TO_DDG_API, answer)
         # https://regex101.com/r/NMdWXw/1
         regex = (
             r"Your IP address is (?P<ip_address>[0-9]*\.[0-9]+\.[0-9]+\.[0-9]+) in.*"
         )
         match = re.match(regex, answer)
-        if match is None:
-            logger.error(f"Can't extract ip_address from: {answer}")
-        else:
-            # https://docs.python.org/3/library/ipaddress.html#ipaddress.ip_address
-            external_ip = ip_address(match["ip_address"])
+        assert match, f"Can't extract ip_address from: {answer}"
+
+        # https://docs.python.org/3/library/ipaddress.html#ipaddress.ip_address
+        external_ip = ip_address(match["ip_address"])
+    except AssertionError as err:
+        logger.error(str(err))
     except requests.exceptions.Timeout:
         logger.error(
             "Timeout (=%.5f) occurred on request: requests.get(%s)!",

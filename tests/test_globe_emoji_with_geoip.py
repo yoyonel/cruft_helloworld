@@ -97,7 +97,9 @@ def test_get_external_ipv4():
     Basic test for validate the external ip address retrieve (from DuckDuckGo JSON API)
     => 4 digits separate by '.'
     """
-    assert len(list(map(int, format(get_external_ipv4()).split(".")))) == 4
+    external_ipv4 = get_external_ipv4()
+    assert external_ipv4
+    assert len(list(map(int, format(external_ipv4).split(".")))) == 4
 
 
 @pytest.mark.use_internet
