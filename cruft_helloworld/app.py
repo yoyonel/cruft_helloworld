@@ -44,7 +44,7 @@ logger = logging.getLogger(application_name)
 @click.option(
     "--log-level",
     type=click.Choice(logging._nameToLevel.keys()),  # type: ignore
-    default="WARN",
+    default="WARNING",
     show_default=True,
     help="set logging level",
 )
@@ -68,10 +68,11 @@ def cli(log_level, verbose, show_banner):
         pyfiglet.print_figlet(f"{application_name}, version {application_version}")
         exit(0)
 
+    default_logger_level = getattr(logging, log_level.upper())
+
     if verbose:
         default_logger_level = "INFO" if verbose == 1 else "DEBUG"
-    else:
-        default_logger_level = getattr(logging, log_level.upper())
+
     config_loggers(default_logger_level=default_logger_level)
 
 

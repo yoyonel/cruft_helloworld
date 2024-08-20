@@ -5,10 +5,10 @@ from rich._emoji_codes import EMOJI
 
 from cruft_helloworld import __project_name__ as application_name
 from cruft_helloworld import __version__ as application_version
-from cruft_helloworld.app import cli, console, hello_world
+from cruft_helloworld.app import cli, hello_world
 
 
-def test_app_cli_show_version(cli_runner):
+def test_app_cli_option_version(cli_runner):
     result = cli_runner.invoke(cli, ["--version"])
     assert result.exit_code == 0
     application_name_expected = application_name
@@ -20,12 +20,22 @@ def test_app_cli_show_version(cli_runner):
 
 
 # @pytest.mark.skip
-def test_app_cli_show_banner(cli_runner):
+def test_app_cli_option_show_banner(cli_runner):
     result = cli_runner.invoke(cli, ["--show-banner"])
     assert result.exit_code == 0
     version_message = f"{application_name}, version {application_version}"
     assert len(result.output) > len(version_message)
     assert result.output.count("\n") > 1
+
+
+def test_app_cli_option_verbose(cli_runner):
+    result = cli_runner.invoke(cli, ["--verbose"])
+    assert result.exit_code == 0
+    assert "DEBUG" not in result.output
+
+    result = cli_runner.invoke(cli, ["-vv"])
+    assert result.exit_code == 0
+    assert "DEBUG" in result.output
 
 
 def test_app_cli_help(cli_runner):
@@ -50,12 +60,9 @@ def test_app_cli_hello_world(
     cli_runner, input_globe_emoji_name: str, expected_globe_emoji_char: str
 ):
     # https://github.com/willmcgugan/rich/blob/a3f5609202e9aa45751ce9baa3a72462ed1cc488/tests/test_console.py#L192
-    with console.capture() as capture:
-        result = cli_runner.invoke(
-            hello_world, ["--globe-emoji", input_globe_emoji_name]
-        )
+    result = cli_runner.invoke(hello_world, ["--globe-emoji", input_globe_emoji_name])
     assert result.exit_code == 0
-    assert capture.get() == f"Hello {expected_globe_emoji_char}\n"
+    assert result.output == f"Hello {expected_globe_emoji_char}\n"
 
 
 def test_error_app_cli_hello_world(cli_runner):
@@ -73,10 +80,9 @@ def test_error_app_cli_hello_world(cli_runner):
 
 @pytest.mark.use_internet
 def test_app_cli_hello_world_without_option(cli_runner):
-    with console.capture() as capture:
-        result = cli_runner.invoke(hello_world)
+    result = cli_runner.invoke(hello_world)
     assert result.exit_code == 0
-    hello_world_result = capture.get()
+    hello_world_result = result.output
     regex = r"Hello (?P<globe_emoji>.)"
     match = re.match(regex, hello_world_result)
     assert match, f"Can't find emoji in: '{hello_world_result}'"
