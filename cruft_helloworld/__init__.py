@@ -1,9 +1,11 @@
 import os
 import sys
 
-from pkg_resources import get_distribution
+# https://docs.python.org/3.11/library/importlib.metadata.html#distributions
+from importlib.metadata import distribution
 
-__version__ = get_distribution("cruft_helloworld").version
+__project_name__ = "cruft_helloworld"
+__version__ = distribution(__project_name__).version
 
 if sys.platform == "win32":
     os.environ["APPDATA"] = os.environ.get("APPDATA", "")

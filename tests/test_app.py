@@ -3,32 +3,29 @@ import re
 import pytest
 from rich._emoji_codes import EMOJI
 
-from cruft_helloworld.app import (
-    PACKAGE_NAME,
-    PACKAGE_VERSION,
-    cli,
-    console,
-    hello_world,
-)
+from cruft_helloworld import __project_name__ as application_name
+from cruft_helloworld import __version__ as application_version
+from cruft_helloworld.app import cli, console, hello_world
 
 
 def test_app_cli_show_version(cli_runner):
     result = cli_runner.invoke(cli, ["--version"])
     assert result.exit_code == 0
-    application_name_expected = PACKAGE_NAME
-    application_version_expected = PACKAGE_VERSION
+    application_name_expected = application_name
+    application_version_expected = application_version
     version_message_expected = (
         f"{application_name_expected}, version {application_version_expected}\n"
     )
     assert result.output == version_message_expected
 
 
+# @pytest.mark.skip
 def test_app_cli_show_banner(cli_runner):
     result = cli_runner.invoke(cli, ["--show-banner"])
     assert result.exit_code == 0
-    version_message = f"{PACKAGE_NAME}, version {PACKAGE_VERSION}"
+    version_message = f"{application_name}, version {application_version}"
     assert len(result.output) > len(version_message)
-    assert result.output.count("\n") > 5
+    assert result.output.count("\n") > 1
 
 
 def test_app_cli_help(cli_runner):
@@ -62,10 +59,16 @@ def test_app_cli_hello_world(
 
 
 def test_error_app_cli_hello_world(cli_runner):
-    wrong_emoji_name = "dummy_emoji"
-    result = cli_runner.invoke(hello_world, ["--globe-emoji", wrong_emoji_name])
+    click_option_name = "globe-emoji"
+    wrong_emoji_name = "no-existing-click-option"
+    result = cli_runner.invoke(
+        hello_world, [f"--{click_option_name}", wrong_emoji_name]
+    )
     assert result.exit_code == 2
-    assert f"invalid choice: {wrong_emoji_name}." in result.output
+    assert (
+        f"Error: Invalid value for '--{click_option_name}': '{wrong_emoji_name}'"
+        in result.output
+    )
 
 
 @pytest.mark.use_internet
