@@ -85,9 +85,9 @@ def cli(log_level, verbose, show_banner):
     type=click.Choice(
         [e_global_emoji.name for e_global_emoji in GlobeEmoji], case_sensitive=False
     ),
-    callback=lambda ctx, param, value: getattr(GlobeEmoji, value).value
-    if value
-    else None,
+    callback=lambda ctx, param, value: (
+        getattr(GlobeEmoji, value).value if value else None
+    ),
 )
 def hello_world(globe_emoji: Optional[str]):
     globe_emoji = globe_emoji or find_globe_emoji_from_external_ip()
