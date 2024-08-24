@@ -855,24 +855,24 @@ license = ["ukkonen"]
 
 [[package]]
 name = "idna"
-version = "3.7"
+version = "3.8"
 description = "Internationalized Domain Names in Applications (IDNA)"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 files = [
-    {file = "idna-3.7-py3-none-any.whl", hash = "sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0"},
-    {file = "idna-3.7.tar.gz", hash = "sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc"},
+    {file = "idna-3.8-py3-none-any.whl", hash = "sha256:050b4e5baadcd44d760cedbd2b8e639f2ff89bbc7a5730fcc662954303377aac"},
+    {file = "idna-3.8.tar.gz", hash = "sha256:d838c2c0ed6fced7693d5e8ab8e734d5f8fda53a039c0164afb0b82e771e3603"},
 ]
 
 [[package]]
 name = "importlib-metadata"
-version = "8.3.0"
+version = "8.4.0"
 description = "Read metadata from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_metadata-8.3.0-py3-none-any.whl", hash = "sha256:42817a4a0be5845d22c6e212db66a94ad261e2318d80b3e0d363894a79df2b67"},
-    {file = "importlib_metadata-8.3.0.tar.gz", hash = "sha256:9c8fa6e8ea0f9516ad5c8db9246a731c948193c7754d3babb0114a05b27dd364"},
+    {file = "importlib_metadata-8.4.0-py3-none-any.whl", hash = "sha256:66f342cc6ac9818fc6ff340576acd24d65ba0b3efabb2b4ac08b598965a4a2f1"},
+    {file = "importlib_metadata-8.4.0.tar.gz", hash = "sha256:9a547d3bc3608b025f93d403fdd1aae741c24fbb8314df4b155675742ce303c5"},
 ]
 
 [package.dependencies]
@@ -1443,6 +1443,17 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
+name = "poetry-core"
+version = "1.9.0"
+description = "Poetry PEP 517 Build Backend"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "poetry_core-1.9.0-py3-none-any.whl", hash = "sha256:4e0c9c6ad8cf89956f03b308736d84ea6ddb44089d16f2adc94050108ec1f5a1"},
+    {file = "poetry_core-1.9.0.tar.gz", hash = "sha256:fa7a4001eae8aa572ee84f35feb510b321bd652e5cf9293249d62853e1f935a2"},
+]
+
+[[package]]
 name = "pre-commit"
 version = "3.8.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
@@ -1906,6 +1917,17 @@ files = [
 ]
 
 [[package]]
+name = "tomlkit"
+version = "0.13.2"
+description = "Style preserving TOML library"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "tomlkit-0.13.2-py3-none-any.whl", hash = "sha256:7a974427f6e119197f670fbbbeae7bef749a6c14e793db934baefc1b5f03efde"},
+    {file = "tomlkit-0.13.2.tar.gz", hash = "sha256:fff5fe59a87295b278abd31bec92c15d9bc4a06885ab12bcea52c71119392e79"},
+]
+
+[[package]]
 name = "tox"
 version = "4.18.0"
 description = "tox is a generic virtualenv management and test command line tool"
@@ -1948,6 +1970,26 @@ tox = ">=4,<5"
 
 [package.extras]
 testing = ["black", "devpi-process", "flake8 (>=6,<7)", "mypy", "pytest (>=7,<8)", "pytest-cov (>=3,<4)", "pytest-mock (>=3,<4)", "pytest-randomly (>=3)"]
+
+[[package]]
+name = "tox-poetry-dev-dependencies"
+version = "0.0.9"
+description = "Tox plugin to help working with Poetry-based projects"
+optional = false
+python-versions = "~=3.5"
+files = [
+    {file = "tox-poetry-dev-dependencies-0.0.9.tar.gz", hash = "sha256:1a4a409190537a0084090f32d3b7c8ff5daa5d800b7571eb2098db996c656fb1"},
+    {file = "tox_poetry_dev_dependencies-0.0.9-py3-none-any.whl", hash = "sha256:5e826edd7213525576168b8beec53f62fb1534c3161fb9bc3de67a5d6d8a4f48"},
+]
+
+[package.dependencies]
+poetry-core = ">=1.0,<2.0"
+tomlkit = "*"
+tox = "*"
+
+[package.extras]
+dev-package = ["twine", "wheel"]
+dev-test = ["mypy", "pycodestyle", "pydocstyle", "pylint", "pytest", "pytest-mypy", "pytest-pycodestyle", "pytest-pydocstyle", "pytest-pylint", "pytest-yapf3", "yapf"]
 
 [[package]]
 name = "traitlets"
@@ -2159,4 +2201,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9, <4.0"
-content-hash = "ebf5735cc2902297f74f2d9f70d8c49067b9975a282139cde52c004a8dd06c60"
+content-hash = "81df0f577655c2366659048e24e68894d1e09925b75d4d55dfe2c9b8b4e4e2f3"

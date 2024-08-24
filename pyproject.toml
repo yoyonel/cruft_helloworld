@@ -76,6 +76,7 @@ aiohttp = "*"
 aiohttp_cors = "*"
 
 tox = "*"
+tox-poetry-dev-dependencies = "*"
 tox-gh-actions = "*"
 virtualenv-pyenv = "*"
 
